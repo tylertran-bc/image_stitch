@@ -1,0 +1,7 @@
+OpenCV
+- $ pip install opencv-python
+
+imutils
+- $ pip install imutils
+- $ pip install --upgrade imutils
+Doc: https://github.com/PyImageSearch/imutils

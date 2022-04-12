@@ -14,9 +14,13 @@ cv2.imshow('image2', img_list[1])
     
 
 
-stitcher = cv2.Stitcher_create()
-(status, stitched) = stitcher.stitch(img_list)
+stitchy = cv2.Stitcher.create()
+(status, stitched) = stitchy.stitch(img_list)
 
-cv2.imshow("Stitched", stitched)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+if stitched != None:
+    print("Stitching...")
+    cv2.imshow("Stitched", stitched)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+else:
+    print(f"Stitch failed: status code {status}")

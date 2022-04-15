@@ -1,5 +1,16 @@
+import sys
+import os
+import shutil
 import numpy as np
 import cv2
+
+ip_folder = sys.argv[1]
+
+# Changing directory to the input folder
+os.chdir(ip_folder)
+
+files = [f for f in os.listdir('.') if f.lower().endswith('.jpg')]
+print("Applying undistortion to files: ", files)
 
 # first try; old lens
 # camera_matrix = np.array(
@@ -21,15 +32,16 @@ camera_matrix = np.array(
 )
 dist = np.array([[-0.3776641, 0.10621045, -0.00358364, 0.00110551, 0.03084146]])
 
+for f in files: 
+    img = cv2.imread(f)
+    height, width = img.shape[:2]
+    new_camera_matrix, roi = cv2.getOptimalNewCameraMatrix(camera_matrix, dist, (width, height), 1, (width, height))
 
-img = cv2.imread("seg_test2.jpg")
-height, width = img.shape[:2]
-new_camera_matrix, roi = cv2.getOptimalNewCameraMatrix(camera_matrix, dist, (width, height), 1, (width, height))
+    xy_maps = cv2.initUndistortRectifyMap(camera_matrix, dist, None, new_camera_matrix, (width, height), 5)
+    # xy_maps is consistent for all images and thus could be cached
 
-xy_maps = cv2.initUndistortRectifyMap(camera_matrix, dist, None, new_camera_matrix, (width, height), 5)
-# xy_maps is consistent for all images and thus could be cached
-
-dst = cv2.remap(img, *xy_maps, cv2.INTER_LINEAR)
-x, y, w, h = roi
-dst = dst[y : y + h, x : x + w]
-cv2.imwrite("seg_test2_calibresult.png", dst)
+    dst = cv2.remap(img, *xy_maps, cv2.INTER_LINEAR)
+    x, y, w, h = roi
+    dst = dst[y : y + h, x : x + w]
+    cv2.imwrite(f.split('.')[0] + "_calibresult.jpg", dst)
+    

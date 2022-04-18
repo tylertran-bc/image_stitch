@@ -9,7 +9,7 @@ import sys
 ip_folder = sys.argv[1]
 os.chdir(ip_folder)
 
-image_paths = [f for f in os.listdir('.') if f.lower().endswith('result.png')]
+image_paths = [f for f in os.listdir('.') if f.lower().endswith('ok.jpg')]
 
 # image_paths=['1_test_calibresult.png','2_test_calibresult.png']
 # initialized a list of images
@@ -17,7 +17,7 @@ imgs = []
  
 for i in range(len(image_paths)):
     imgs.append(cv2.imread(image_paths[i]))
-    imgs[i]=cv2.resize(imgs[i],(0,0),fx=0.4,fy=0.4)
+    imgs[i]=cv2.resize(imgs[i],(0,0),fx=1,fy=1)
     # this is optional if your input images isn't too large
     # you don't need to scale down the image
     # in my case the input images are of dimensions 3000x1200
@@ -25,7 +25,9 @@ for i in range(len(image_paths)):
     # scaling down the images
 # showing the original pictures
 cv2.imshow('1',imgs[0])
+cv2.waitKey(0)
 cv2.imshow('2',imgs[1])
+cv2.waitKey(0)
 
 # Test to see the function call to read the image is successful
 print(imgs)
@@ -41,11 +43,9 @@ if dummy != cv2.STITCHER_OK:
     print(f"stitching ain't successful (Status: {dummy})")
 else:
     print('Your Panorama is ready!!!')
- 
-cv2.imshow('output', output)
-cv2.imwrite('stitch_out.png', output)
- 
-cv2.waitKey(0)
+    cv2.imshow('output', output)
+    cv2.imwrite('stitch_out.png', output)
+    cv2.waitKey(0)
 
 
 

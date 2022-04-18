@@ -1,3 +1,7 @@
+"""
+Syntax: python/3 image_stitch.py [IMAGE FOLDER]
+"""
+
 import cv2
 import os
 import sys
@@ -5,7 +9,7 @@ import sys
 ip_folder = sys.argv[1]
 os.chdir(ip_folder)
 
-image_paths = [f for f in os.listdir('.') if f.lower().endswith('result.jpg')]
+image_paths = [f for f in os.listdir('.') if f.lower().endswith('result.png')]
 
 # image_paths=['1_test_calibresult.png','2_test_calibresult.png']
 # initialized a list of images
@@ -23,23 +27,30 @@ for i in range(len(image_paths)):
 cv2.imshow('1',imgs[0])
 cv2.imshow('2',imgs[1])
 
+# Test to see the function call to read the image is successful
+print(imgs)
+print(imgs[0].shape)
+
 stitchy=cv2.Stitcher.create()
-(dummy,output)=stitchy.stitch(imgs)
+dummy, output = stitchy.stitch(imgs)
  
 if dummy != cv2.STITCHER_OK:
   # checking if the stitching procedure is successful
   # .stitch() function returns a true value if stitching is
   # done successfully
-    print("stitching ain't successful")
+    print(f"stitching ain't successful (Status: {dummy})")
 else:
     print('Your Panorama is ready!!!')
  
-# final output
 cv2.imshow('output', output)
 cv2.imwrite('stitch_out.png', output)
  
 cv2.waitKey(0)
 
+
+
+
+#First Try/Method
 # import cv2
 
 # image_paths =['1.jpg','2.jpg']

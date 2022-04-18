@@ -1,3 +1,8 @@
+"""
+Syntax: python/3 apply_undistortion.py [IMAGE FOLDER]
+
+This will output into a PNG file as [FILENAME]_calibresult.png
+"""
 import sys
 import os
 import shutil
@@ -43,5 +48,5 @@ for f in files:
     dst = cv2.remap(img, *xy_maps, cv2.INTER_LINEAR)
     x, y, w, h = roi
     dst = dst[y : y + h, x : x + w]
-    cv2.imwrite(f.split('.')[0] + "_calibresult.jpg", dst)
+    cv2.imwrite(f.split('.')[0] + "_calibresult.png", dst)
     
